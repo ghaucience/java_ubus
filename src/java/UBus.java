@@ -9,10 +9,7 @@ public class UBus {
 	}
 	public native static String get_version();
 	public native static int connect(String sListenPat, String sDestPat);
-	public native static int close(); 
-	public native static int send(String msg);
-	public native static int recv(int sec, int usec);
-	public void on_message(String msg) {
-		System.out.println("[RECV]:" + msg);
-	}
+	public native static int close(int handler); 
+	public native static int send(int handler, String msg);
+	public native static String recv(int handler, int sec, int usec);
 }

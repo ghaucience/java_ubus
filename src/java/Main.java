@@ -6,10 +6,12 @@ public class Main {
 		 }
      public static void main(String[] args) {
         UBus ubus = new UBus();
+
         System.out.println(ubus.get_version());
 
-				ubus.connect("DS.GATEWAY", "DS.CLOUD");
-				ubus.send("{\"value\":\"111\"}");
+				int h = ubus.connect("DS.GATEWAY", "DS.CLOUD");
+
+				//ubus.send(h, "{\"value\":\"111\"}");
 				while ( true ) {
 					/*
 					try {
@@ -19,7 +21,8 @@ public class Main {
 					}
 					*/
 					try {
-						ubus.recv(4, 80);
+						String s = ubus.recv(h, 4, 80);
+						System.out.println("[" +  s  + "]");
 					} catch(Exception e) {
 						continue;
 					}

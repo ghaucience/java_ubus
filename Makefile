@@ -22,10 +22,10 @@ endif
 ###################################################################
 # Java Home Env
 # #############
-#JAVA_INC=/home/au/all/opt/jdk1.8.0_144/include
+JAVA_INC=/home/au/all/opt/jdk1.8.0_144/include
 #JAVA_INC=/usr/java/jdk1.7.0_71/include
-JAVA_INC=/home/au/all/dl/jdk1.8.0_161/include
-CFLAGS=-fPIC -I./inc -I$(JAVA_INC) -I$(JAVA_INC)/linux
+#JAVA_INC=/home/au/all/dl/jdk1.8.0_161/include
+CFLAGS=-fPIC -I./inc -I./src/c/ -I$(JAVA_INC) -I$(JAVA_INC)/linux
 LDFLAGS=-shared -fPIC -L/usr/lib/ -lubus -lubox -lblobmsg_json -ljson-c
 
 
@@ -42,7 +42,8 @@ all:
 	javac -classpath ./build -d ./build ./src/java/Main.java
 
 	$(CROSS)gcc -c ./src/c/com_dusun_ubus_UBus.c -D_REENTRANT $(CFLAGS) $(CROSS_CFLAGS) -o ./build/src/c/com_dusun_ubus_UBus.o
-	$(CROSS)gcc  ./build/src/c/com_dusun_ubus_UBus.o $(CROSS_LDFLAGHS) $(LDFLAGS) -o ./lib/libdusun_ubus.so
+	$(CROSS)gcc -c ./src/c/list.c -D_REENTRANT $(CFLAGS) $(CROSS_CFLAGS) -o ./build/src/c/list.o
+	$(CROSS)gcc  ./build/src/c/com_dusun_ubus_UBus.o ./build/src/c/list.o $(CROSS_LDFLAGHS) $(LDFLAGS) -o ./lib/libdusun_ubus.so
 	
 	echo 123456 | sudo -S -u root cp ./lib/libdusun_ubus.so /usr/lib/
 run:
